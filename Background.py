@@ -1,3 +1,15 @@
+# This class loads and updates the background image of the application. To
+# keep a continious background, it's painted twice next to each other outside
+# of the screen.
+#
+# The update method simply updates the x position of the rectangle that has
+# the image.
+#
+# Author: Daniel Kvist
+# E-mail: danielkvist81@gmail.com
+# Python version: 2.7
+# OS: OS X
+
 import pygame
 from pygame.locals import *
 

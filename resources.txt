@@ -1,7 +1,17 @@
+This file contains information about external resources that are used in the game.
+
 Images:
 Skyline
 License: CC
 URL: http://opengameart.org/content/city-background-repetitive
+
+Helicopter
+License: http://all-silhouettes.com/tou/
+URL: http://all-silhouettes.com/free-vector-helicopters/
+
+Running man (tax crook)
+License: http://www.spriteland.com/terms.htm#terms
+URL: http://www.spriteland.com/sprites/running_man_sprite_pack.htm
 
 Music: 
 Benny Goodman (Sing sing sing)

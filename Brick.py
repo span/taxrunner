@@ -1,3 +1,14 @@
+# This class loads and updates the brick image that make out the ground that the
+# running man is running on in the application. 
+#
+# The update method simply updates the x position of the rectangle that has
+# the brick image.
+#
+# Author: Daniel Kvist
+# E-mail: danielkvist81@gmail.com
+# Python version: 2.7
+# OS: OS X
+
 import pygame
 from pygame.locals import *
 

@@ -1,3 +1,15 @@
+# This class loads and updates the cash images that make out the red & green cash that the
+# running man can catch when running. The type of cash (red/green) is set as a paramter
+# on instantiation.
+#
+# The update method simply updates the x position of the rectangle that has
+# the cash image.
+#
+# Author: Daniel Kvist
+# E-mail: danielkvist81@gmail.com
+# Python version: 2.7
+# OS: OS X
+
 import pygame
 from pygame.locals import *
 

@@ -1,7 +1,18 @@
+# This class contains the main game loop and handles the lifecycle of the game. It
+# uses several different 'states' to keep track of what is going on at any given
+# time. It starts by loading the 'intro' using the 'intro' state and then moves
+# on to use 'menu' and 'game' states as appropriate.
+#
+# Author: Daniel Kvist
+# E-mail: danielkvist81@gmail.com
+# Python version: 2.7
+# OS: OS X
+
 import eztext
 import sys
 import pygame
 from pygame.locals import *
+from Intro import Intro
 from Level import Level
 from Menu import Menu
 from Score import Score
@@ -18,23 +29,33 @@ class Game():
         pygame.init()
         self.font = pygame.font.Font(None, 18)
         self.surface = pygame.display.set_mode(self.SCREEN_SIZE, 0, 32)
-        self.state = 'menu'
+        self.state = 'intro'
+        self.hiscores = Score.read_high_score()
         self.menu = Menu(("Start game", "Quit"))
         pygame.mixer.music.load(self.MUSIC_FILE)
         pygame.mixer.music.play(-1)
         
     def start(self):
         while True:
-            if self.state == 'menu':
+            if self.state == 'intro':
+                # Show the intro and when it's done we move directly to game state
+                intro = Intro(pygame, self.surface);
+                intro.show()
+                self.state = 'game'
+            elif self.state == 'menu':
+                # Show the menu and run the menu loop
                 self.hiscores = Score.read_high_score()
                 self.show_menu()
             elif self.state == 'game':
+                # Run a game and run the game loop
                 self.load_level()
                 self.game_loop()
             elif self.state == 'quit':
+                # Quit, we're done.
                 pygame.quit()
                 sys.exit()
-        
+    
+    # Contains the main menu loop and handles starting and quitting while showing the high scores
     def show_menu(self):
         pygame.mouse.set_visible(1)
         self.menu.drawMenu()
@@ -60,13 +81,15 @@ class Game():
                 
             Score.draw_high_scores(self.hiscores, self.surface)
             pygame.display.flip()
-            
+        
+    # Loads and resets a level    
     def load_level(self):
         self.up = False
         self.speed = 5
         self.nameinput = None
         self.level = Level(self)
-        
+    
+    # The main game loop that updates the level as the game progresses
     def game_loop(self):
         pygame.mouse.set_visible(0)
         while True:
@@ -93,7 +116,8 @@ class Game():
                                 Score.update_highscore(name, self.level.get_score(), self.hiscores)
                             self.state = 'menu'
                             return
-               
+             
+            # Update level 
             self.level.update(self.up)
             self.level.draw()
             self.text = self.font.render("$" + str(self.level.get_score()), 1, self.DARK_GREY)
@@ -115,7 +139,8 @@ class Game():
 
             # Flip the buffer to show the updates
             pygame.display.flip()
-        
+       
+    # Blits the final score to the screen 
     def show_final_score(self):
         font = pygame.font.Font(None, 36)
         text = font.render("$" + str(self.level.get_score()), 1, self.WHITE)

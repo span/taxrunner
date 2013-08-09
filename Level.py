@@ -1,3 +1,13 @@
+# This class contains the level sprites that we see on the screen. When this class is
+# instantiated it draws a level of bricks, adds a player, taxman, background and cash. This
+# class is then called from the main game loop through the update method. These calls are
+# then propagated to the proper sprite classes as necessary.
+#
+# Author: Daniel Kvist
+# E-mail: danielkvist81@gmail.com
+# Python version: 2.7
+# OS: OS X
+
 import pygame
 from pygame.locals import *
 from random import *
@@ -13,6 +23,7 @@ class Level():
     start_pos_x = 600
     bricks = 24
     
+    # Loads and initiates the level
     def __init__(self, game):
         self.finished = False
         self.sprites = pygame.sprite.Group()
@@ -43,7 +54,8 @@ class Level():
         self.player = Player(self.start_pos_x, 0, self.speed)
         self.taxman = TaxMan(50, 100, self.speed)
         self.sprites.add(self.taxman)
-       
+      
+    # Updates the sprite positions 
     def update(self, up):
         self.background.update()
         self.sprites.update(self.surface)
@@ -52,17 +64,12 @@ class Level():
 
         if self.player.rect.y > self.surface_rect.height:
             self.player.state = 'busted'
-        
+    
+    # Draws the sprites  
     def draw(self):
         self.background.draw(self.surface)
         self.sprites.draw(self.surface)
         self.player.draw(self.surface)   
-    
-    def end():
-        self.game.show_resul
-    
-    def respawn(self):
-        self.player = Player(self.start_pos_x, self.start_pos_y, self.speed)
         
     def get_score(self):
         return self.player.score.get_score()

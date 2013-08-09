@@ -1,3 +1,12 @@
+# This is the scoring class that reads and writes high scores to a file. It also keeps
+# track of the players current score. This class can also be used to get printable strings
+# to print the menu.
+#
+# Author: Daniel Kvist
+# E-mail: danielkvist81@gmail.com
+# Python version: 2.7
+# OS: OS X
+
 import csv
 import os
 import pygame

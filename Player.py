@@ -1,3 +1,14 @@
+# This is the player class which handles the animation of the character when he
+# runs and jumps. It also handles some hit-tests and collision calculations to find
+# when the player has run into some cash.
+#
+# Updates are done in the update method that is called from the level.
+#
+# Author: Daniel Kvist
+# E-mail: danielkvist81@gmail.com
+# Python version: 2.7
+# OS: OS X
+
 import pygame
 from pygame.locals import *
 from Brick import Brick
@@ -30,16 +41,20 @@ class Player(pygame.sprite.Sprite):
         
         
     def update(self, up):
+        # Jump!
         if up == True and self.jumping  == False and self.colliding == True:
             self.dy = -(self.rect.height / 4)
             self.jumping = True
         
+        # Gravity
         if self.jumping == True:
             self.dy += 1.2
             self.rect.y += self.dy
+        # Falling
         elif self.colliding == False:
             self.dy += 0.5
             self.rect.y += self.dy  
+        # Running
         else:
             if self.channel == None or self.channel.get_busy() == False:
                 self.channel = self.running_sound.play()
@@ -47,10 +62,12 @@ class Player(pygame.sprite.Sprite):
             self.frame += 1
             if self.frame == 8:
                 self.frame = 0
-        
+                
+        # As long as we're free we get score points!
         if self.state == 'free':
             self.score.update()
-            
+        
+    # Tests collisions with cash and bricks.    
     def collide(self, sprites, surface):
         self.colliding = False
         collision_sprites = pygame.sprite.spritecollide(self, sprites, False)
@@ -67,8 +84,6 @@ class Player(pygame.sprite.Sprite):
                     self.dy = 0
                     self.colliding = True
                     self.jumping = False
-            elif isinstance(sprite, TaxMan):
-                self.state = 'busted'
                 
     def draw(self, surface):
         if self.state == 'free':
