@@ -30,6 +30,7 @@ class Level():
         self.surface = game.surface
         self.speed = game.speed
         self.surface_rect = self.surface.get_rect()
+        self.center = (self.surface_rect.width / 2, self.surface_rect.height / 2)
         self.background = Background(self.speed)
         self.heightfactor = 0
         self.x = 0
@@ -48,9 +49,9 @@ class Level():
             self.sprites.add(brick)
             
         self.green_cash = Cash(self.surface_rect.width, self.y - 70, self.speed, 'green')    
-        self.red_cash = Cash(self.surface_rect.width, self.y - 50, self.speed * 1.5, 'red')
+        self.receipt = Cash(self.surface_rect.width, self.y - 50, self.speed * 1.5, 'receipt')
         self.sprites.add(self.green_cash)
-        self.sprites.add(self.red_cash)
+        self.sprites.add(self.receipt)
         self.player = Player(self.start_pos_x, 0, self.speed)
         self.taxman = TaxMan(50, 100, self.speed)
         self.sprites.add(self.taxman)
@@ -69,7 +70,13 @@ class Level():
     def draw(self):
         self.background.draw(self.surface)
         self.sprites.draw(self.surface)
-        self.player.draw(self.surface)   
+        self.player.draw(self.surface)
+        
+        # If we hit some cash during the update phase, draw cash info to screen
+        if self.receipt.state == 'collect':
+            self.surface.blit(self.receipt.text, self.center)
+        if self.green_cash.state == 'collect':
+            self.surface.blit(self.green_cash.text, self.center)
         
     def get_score(self):
         return self.player.score.get_score()

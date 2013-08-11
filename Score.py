@@ -40,7 +40,7 @@ class Score():
     def get_score(self):
         return self.score;
         
-    @staticmethod 
+    @staticmethod
     def is_highscore(score, hiscores):
         for hiscore in hiscores:
             if score > int(hiscore[1]):
@@ -71,7 +71,7 @@ class Score():
     def draw_high_scores(hiscores, surface):
         current_line = -1
         line_height = 24
-        font = pygame.font.Font(None, 24)
+        font = pygame.font.SysFont('sans-serif', 24, True)
         x = (surface.get_rect().width / 2) - 80
         y = 100
         surface.blit(font.render("          HI-SCORE", 1, WHITE), (x, y + (line_height * current_line)))

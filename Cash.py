@@ -17,17 +17,26 @@ class Cash(pygame.sprite.Sprite):
     
     def __init__(self, x, y, speed, cash_type):
         pygame.sprite.Sprite.__init__(self)
-        if cash_type == 'red':
-            self.image = pygame.image.load("world/red-cash.png").convert_alpha()
+        if cash_type == 'receipt':
+            self.image = pygame.image.load("world/receipt.png").convert_alpha()
+            self.info_text = "$-2000"
+            self.text_color = (255, 0, 0)
         elif cash_type == 'green':
             self.image = pygame.image.load("world/green-cash.png").convert_alpha()
+            self.info_text = "$5000"
+            self.text_color = (0, 255, 0)
         else:
-            raise ValueError("Cash type must be either red or green.")
+            raise ValueError("Cash type must be either 'receipt' or 'green'.")
+        font = pygame.font.SysFont('sans-serif', 24, True)
+        self.text = font.render(self.info_text, True, self.text_color)
+        self.collect_counter = 0
+        self.state = None
         self.type = cash_type
         self.rect = self.image.get_rect()
         self.rect.x = x;
         self.rect.y = y;
-        self.dx = -(3 * speed);
+        self.speed = speed
+        self.dx = -(2.5 * speed);
         self.dy = 0;
         
     def update(self, surface):
@@ -35,4 +44,12 @@ class Cash(pygame.sprite.Sprite):
         self.rect.y += self.dy
         if self.rect.x < 0:
             self.rect.x = surface.get_rect().width
-        
+        if self.collect_counter > 0:
+            self.collect_counter -= 1
+            if self.collect_counter <= 0:
+                self.state = None
+            
+    def start_collect(self):
+         self.state = 'collect'
+         self.collect_counter = 5 * self.speed
+         

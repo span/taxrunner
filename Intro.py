@@ -1,6 +1,9 @@
 # This class contains the game intro which displays a simple story background
 # and then returns control to the calling method.
 #
+# If the user presses 'enter', 'menu' will be returned as the next state. Otherwise
+# the intro will complete and return 'game' to launch the gameplay.
+#
 # Author: Daniel Kvist
 # Modified from https://gist.github.com/rshk/5072375
 # E-mail: danielkvist81@gmail.com
@@ -9,6 +12,8 @@
 
 import sys
 import time
+import pygame
+from pygame.locals import *
 
 class Intro():
     
@@ -25,9 +30,9 @@ class Intro():
     
     def __init__(self, pygame, surface):
         self.texts = ["TaxRunner", 
-                      "You've been manipulating taxes for years, but now they are coming to get you!",
-                      "Collect as much green while you can and watch out for marked traps!",
-                      "Uh oh, here they are, RUN!!!!!!!!!!"]
+                      "You've been manipulating taxes for years, but now they are coming to get you...",
+                      "Collect as much green while you can and watch out for traps and receipts...",
+                      "Uh oh, here they are, RUN!!!!!!!!!! (JUMP with UP arrow)"]
         self.textframe = 0
         self.surface = surface
         self.pygame = pygame
@@ -45,6 +50,8 @@ class Intro():
                 if event.type == self.pygame.QUIT:
                     self.pygame.quit()
                     sys.exit()
+                elif event.type == KEYDOWN and event.key == K_RETURN:
+                    return 'menu'
                 
             # Calculate time and check what state we should be in
             state_time = time.time() - self.last_state_change 
@@ -66,7 +73,7 @@ class Intro():
                         self.last_state_change = time.time() - state_time
                     else:
                         # Intro is finished, lets return
-                        return
+                        return 'game'
             else:
                 raise ValueError()
  

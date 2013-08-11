@@ -73,8 +73,9 @@ class Player(pygame.sprite.Sprite):
         collision_sprites = pygame.sprite.spritecollide(self, sprites, False)
         for sprite in collision_sprites:
             if isinstance(sprite, Cash):
-                sprite.rect.x += surface.get_rect().width
-                if sprite.type == 'red':
+                sprite.start_collect()
+                sprite.rect.x += 2 * surface.get_rect().width
+                if sprite.type == 'receipt':
                     self.score.add_score(-2000)
                 elif sprite.type == 'green':
                     self.score.add_score(5000)

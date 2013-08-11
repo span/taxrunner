@@ -27,7 +27,7 @@ class Game():
     
     def __init__(self):
         pygame.init()
-        self.font = pygame.font.Font(None, 18)
+        self.font = pygame.font.SysFont('sans-serif', 18, True)
         self.surface = pygame.display.set_mode(self.SCREEN_SIZE, 0, 32)
         self.state = 'intro'
         self.hiscores = Score.read_high_score()
@@ -40,8 +40,8 @@ class Game():
             if self.state == 'intro':
                 # Show the intro and when it's done we move directly to game state
                 intro = Intro(pygame, self.surface);
-                intro.show()
-                self.state = 'game'
+                new_state = intro.show()
+                self.state = new_state
             elif self.state == 'menu':
                 # Show the menu and run the menu loop
                 self.hiscores = Score.read_high_score()
@@ -85,7 +85,7 @@ class Game():
     # Loads and resets a level    
     def load_level(self):
         self.up = False
-        self.speed = 5
+        self.speed = 6
         self.nameinput = None
         self.level = Level(self)
     
@@ -142,7 +142,7 @@ class Game():
        
     # Blits the final score to the screen 
     def show_final_score(self):
-        font = pygame.font.Font(None, 36)
-        text = font.render("$" + str(self.level.get_score()), 1, self.WHITE)
+        font = pygame.font.SysFont('sans-serif', 36, True)
+        text = font.render("$" + str(self.level.get_score()), True, self.WHITE)
         self.surface.blit(text, (400, 475))
         self.surface.blit(font.render(self.message, 1, self.WHITE), (400, 400))
