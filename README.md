@@ -1,8 +1,8 @@
 TAXRUNNER
 ==========================================================================================
-Author: Daniel Kvist
-E-mail: dk@danielkvist.net
-Python version: 2.7
+* Author: Daniel Kvist
+* E-mail: dk@danielkvist.net
+* Python version: 2.7
 
 1. Quick & dirty game
 -------------------------------------------------------------------------------------------
